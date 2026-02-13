@@ -6,6 +6,36 @@
     <title>Smart Budget - Your Friendly Finance Helper</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
+        /* Language Selector */
+.language-selector {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1001;
+}
+
+.language-dropdown {
+    padding: 10px 16px;
+    border: 2px solid var(--copper);
+    border-radius: 12px;
+    background: var(--card-bg);
+    color: var(--text-primary);
+    font-family: 'Nunito', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 15px var(--shadow);
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.language-dropdown:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--shadow-hover);
+    background: linear-gradient(135deg, var(--copper) 0%, var(--copper-light) 100%);
+    color: white;
+}
+
         * {
             margin: 0;
             padding: 0;
@@ -1348,6 +1378,553 @@
             }
         }
 
+
+        /* Investment Tabs */
+        .investment-tabs {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 25px;
+            animation: fadeIn 0.8s ease-out 0.2s both;
+        }
+
+        .inv-tab {
+            padding: 15px 10px;
+            border: 2px solid rgba(184, 115, 51, 0.2);
+            background: var(--card-bg);
+            color: var(--text-secondary);
+            border-radius: 18px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .tab-emoji {
+            font-size: 24px;
+        }
+
+        .inv-tab:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .inv-tab.active {
+            background: linear-gradient(135deg, var(--copper) 0%, var(--copper-light) 100%);
+            color: white;
+            border-color: var(--copper);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px var(--shadow-hover);
+        }
+
+        /* Investment Sections */
+        .investment-section {
+            display: none;
+        }
+
+        .investment-section.active {
+            display: block;
+        }
+
+        .card-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .helper-text {
+            background: linear-gradient(135deg, rgba(184, 115, 51, 0.05) 0%, rgba(156, 175, 136, 0.05) 100%);
+            padding: 12px 15px;
+            border-radius: 12px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            border-left: 4px solid var(--copper-light);
+        }
+
+        .field-hint {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Result Cards */
+        .result-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 640px) {
+            .result-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .result-card {
+            background: var(--card-bg);
+            border-radius: 18px;
+            padding: 20px 15px;
+            text-align: center;
+            border: 2px solid rgba(184, 115, 51, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .result-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .result-invested {
+            border-color: var(--blue-light);
+            background: linear-gradient(135deg, rgba(91, 154, 169, 0.05) 0%, rgba(91, 154, 169, 0.02) 100%);
+        }
+
+        .result-returns {
+            border-color: var(--sage-light);
+            background: linear-gradient(135deg, rgba(156, 175, 136, 0.05) 0%, rgba(156, 175, 136, 0.02) 100%);
+        }
+
+        .result-total {
+            border-color: var(--copper-light);
+            background: linear-gradient(135deg, rgba(184, 115, 51, 0.05) 0%, rgba(184, 115, 51, 0.02) 100%);
+        }
+
+        .result-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .result-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .result-value {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* Visual Breakdown */
+        .visual-breakdown {
+            margin: 25px 0;
+            background: linear-gradient(135deg, rgba(184, 115, 51, 0.03) 0%, rgba(156, 175, 136, 0.03) 100%);
+            border-radius: 18px;
+            padding: 20px;
+        }
+
+        .breakdown-label {
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+
+        .breakdown-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .breakdown-item {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 12px;
+            padding: 8px;
+        }
+
+        .breakdown-bar {
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 14px;
+            transition: width 1s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bar-text {
+            position: relative;
+            z-index: 1;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Encouragement Message */
+        .encouragement-message {
+            background: linear-gradient(135deg, var(--copper-light) 0%, var(--sage-light) 100%);
+            border-radius: 18px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Goal Categories */
+        .goal-category {
+            margin-bottom: 25px;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 12px 15px;
+            background: linear-gradient(135deg, rgba(184, 115, 51, 0.1) 0%, rgba(156, 175, 136, 0.1) 100%);
+            border-radius: 12px;
+        }
+
+        .category-icon {
+            font-size: 24px;
+        }
+
+        .category-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Goal Plan Box */
+        .goal-plan-box {
+            background: linear-gradient(135deg, var(--sage-light) 0%, var(--blue-light) 100%);
+            border-radius: 18px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .plan-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .plan-suggestion {
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            line-height: 1.6;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Simulator Styles */
+        .simulator-controls {
+            margin: 20px 0;
+        }
+
+        .slider-group {
+            margin-bottom: 25px;
+        }
+
+        /* Simulator Results */
+        .simulator-results {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 25px 0;
+        }
+
+        @media (max-width: 640px) {
+            .simulator-results {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .sim-result-card {
+            background: var(--card-bg);
+            border-radius: 18px;
+            padding: 18px 12px;
+            text-align: center;
+            border: 2px solid rgba(184, 115, 51, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .sim-result-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .sim-invested {
+            border-color: var(--blue-light);
+            background: linear-gradient(135deg, rgba(91, 154, 169, 0.05) 0%, rgba(91, 154, 169, 0.02) 100%);
+        }
+
+        .sim-growth {
+            border-color: var(--sage-light);
+            background: linear-gradient(135deg, rgba(156, 175, 136, 0.05) 0%, rgba(156, 175, 136, 0.02) 100%);
+        }
+
+        .sim-final {
+            border-color: var(--copper-light);
+            background: linear-gradient(135deg, rgba(184, 115, 51, 0.05) 0%, rgba(184, 115, 51, 0.02) 100%);
+        }
+
+        .sim-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .sim-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .sim-value {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* Growth Chart */
+        .growth-chart {
+            margin: 25px 0;
+            background: linear-gradient(135deg, rgba(184, 115, 51, 0.03) 0%, rgba(156, 175, 136, 0.03) 100%);
+            border-radius: 18px;
+            padding: 20px;
+        }
+
+        .chart-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+
+        .chart-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .chart-bar-wrapper {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            padding: 6px;
+        }
+
+        .chart-bar {
+            height: 45px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 13px;
+            transition: width 1s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-invested {
+            background: linear-gradient(90deg, var(--blue) 0%, var(--blue-light) 100%);
+        }
+
+        .chart-growth {
+            background: linear-gradient(90deg, var(--sage) 0%, var(--sage-light) 100%);
+        }
+
+        .chart-label {
+            position: relative;
+            z-index: 1;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Learning Tip */
+        .learning-tip {
+            background: linear-gradient(135deg, rgba(184, 115, 51, 0.1) 0%, rgba(156, 175, 136, 0.1) 100%);
+            border-radius: 15px;
+            padding: 15px 18px;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 4px solid var(--copper);
+        }
+
+        .tip-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .learning-tip p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            line-height: 1.5;
+        }
+
+        /* Tips List */
+        .tips-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .tip-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            background: linear-gradient(135deg, rgba(184, 115, 51, 0.05) 0%, rgba(156, 175, 136, 0.05) 100%);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .tip-item:hover {
+            background: linear-gradient(135deg, rgba(184, 115, 51, 0.1) 0%, rgba(156, 175, 136, 0.1) 100%);
+            transform: translateX(5px);
+        }
+
+        .tip-emoji {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .tip-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+
+        /* Smart Insights Section */
+        .smart-insights {
+            background: var(--card-bg);
+            border-radius: 25px;
+            padding: 25px;
+            margin: 0 20px 30px;
+            box-shadow: 0 4px 15px var(--shadow);
+            animation: slideUp 0.8s ease-out 0.3s both;
+        }
+
+        .insights-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .insights-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, var(--copper) 0%, var(--copper-light) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .insights-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .insights-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .insight-item {
+            padding: 15px;
+            border-radius: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .insight-item:hover {
+            transform: translateX(5px);
+        }
+
+        .insight-item.positive {
+            background: linear-gradient(135deg, rgba(136, 168, 122, 0.1) 0%, rgba(156, 175, 136, 0.05) 100%);
+            border-left-color: var(--income-green);
+        }
+
+        .insight-item.warning {
+            background: linear-gradient(135deg, rgba(255, 229, 168, 0.2) 0%, rgba(255, 229, 168, 0.1) 100%);
+            border-left-color: #FFB84D;
+        }
+
+        .insight-item.negative {
+            background: linear-gradient(135deg, rgba(193, 123, 107, 0.1) 0%, rgba(193, 123, 107, 0.05) 100%);
+            border-left-color: var(--expense-red);
+        }
+
+        .insight-item.neutral {
+            background: linear-gradient(135deg, rgba(91, 154, 169, 0.1) 0%, rgba(91, 154, 169, 0.05) 100%);
+            border-left-color: var(--blue);
+        }
+
+        .insight-emoji {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .insight-text {
+            flex: 1;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+
+        .insight-value {
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 700;
+            color: var(--copper);
+        }
+
+        .no-insights {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-secondary);
+        }
+
+        .no-insights-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .no-insights-text {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .no-insights-hint {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
         /* Page Visibility */
         .page {
             display: none;
@@ -1416,6 +1993,13 @@
     </style>
 </head>
 <body>
+    <div class="language-selector">
+    <select class="language-dropdown" id="languageSelector" onchange="changeLanguage()">
+        <option value="en">English</option>
+        <option value="ml">മലയാളം</option>
+    </select>
+</div>
+
     <div class="app-container">
         <!-- Decorative Background -->
         <div class="decorative-bg"></div>
@@ -1461,6 +2045,21 @@
                         <div class="nav-card-icon">📈</div>
                         <div class="nav-card-title">Investment</div>
                         <div class="nav-card-desc">Plan your financial future</div>
+                    </div>
+                </div>
+
+                <!-- Smart Insights Section -->
+                <div class="smart-insights">
+                    <div class="insights-header">
+                        <div class="insights-icon">💡</div>
+                        <div class="insights-title">Smart Insights</div>
+                    </div>
+                    <div class="insights-list" id="insightsList">
+                        <div class="no-insights">
+                            <div class="no-insights-icon">📊</div>
+                            <div class="no-insights-text">Start tracking to see insights!</div>
+                            <div class="no-insights-hint">Add expenses and income to get personalized financial insights</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1802,175 +2401,400 @@
             </div>
         </div>
 
+
         <!-- INVESTMENT PAGE -->
         <div id="investmentPage" class="page">
             <div class="welcome-header">
                 <h1>Investment Planner <span class="welcome-emoji">📈</span></h1>
-                <p class="welcome-subtitle">Let's make your dreams come true!</p>
+                <p class="welcome-subtitle">Let's grow your money together!</p>
             </div>
 
             <div class="content" style="display: block; max-width: 900px; margin: 0 auto;">
-                <!-- Goal Selection -->
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-icon icon-investment">🎯</div>
-                        <div class="card-title">What's Your Goal?</div>
-                    </div>
-                    <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 15px;">
-                        Select a goal and we'll help you achieve it step by step
-                    </p>
-                    
-                    <div class="goal-grid">
-                        <div class="goal-card" onclick="selectGoal('education', '👶', 'Child Education', 500000, 10)">
-                            <div class="goal-icon">👶</div>
-                            <div class="goal-name">Child Education</div>
-                            <div class="goal-subtitle">Build a bright future</div>
-                        </div>
-                        <div class="goal-card" onclick="selectGoal('emergency', '🏠', 'Emergency Fund', 200000, 3)">
-                            <div class="goal-icon">🏠</div>
-                            <div class="goal-name">Emergency Fund</div>
-                            <div class="goal-subtitle">Stay prepared always</div>
-                        </div>
-                        <div class="goal-card" onclick="selectGoal('wedding', '💍', 'Wedding', 300000, 5)">
-                            <div class="goal-icon">💍</div>
-                            <div class="goal-name">Wedding</div>
-                            <div class="goal-subtitle">Celebrate in style</div>
-                        </div>
-                        <div class="goal-card" onclick="selectGoal('trip', '🌴', 'Family Trip', 150000, 2)">
-                            <div class="goal-icon">🌴</div>
-                            <div class="goal-name">Family Trip</div>
-                            <div class="goal-subtitle">Create memories</div>
-                        </div>
-                    </div>
+                
+                <!-- Investment Type Tabs -->
+                <div class="investment-tabs">
+                    <button class="inv-tab active" onclick="switchInvestmentTab('sip', this)">
+                        <span class="tab-emoji">💰</span>
+                        <span>SIP</span>
+                    </button>
+                    <button class="inv-tab" onclick="switchInvestmentTab('rd', this)">
+                        <span class="tab-emoji">🏦</span>
+                        <span>RD</span>
+                    </button>
+                    <button class="inv-tab" onclick="switchInvestmentTab('goals', this)">
+                        <span class="tab-emoji">🎯</span>
+                        <span>Saving Goals</span>
+                    </button>
                 </div>
 
-                <!-- Selected Goal Details -->
-                <div class="card" id="goalDetails" style="display: none;">
-                    <div class="card-header">
-                        <div class="card-icon icon-investment">
-                            <span id="selectedGoalIcon">🎯</span>
-                        </div>
-                        <div class="card-title" id="selectedGoalName">Your Goal</div>
-                    </div>
-                    
-                    <div class="goal-plan-card">
-                        <div class="plan-message" id="planMessage">
-                            <div class="plan-emoji">✨</div>
-                            <p class="plan-text"></p>
-                        </div>
-                    </div>
-
-                    <div class="input-section" style="margin-top: 20px;">
-                        <div class="input-group">
-                            <label class="input-label">🎯 Your Target Amount</label>
-                            <input type="number" class="input-field" id="goalAmount" placeholder="₹2,00,000" oninput="updateGoalPlan()">
-                        </div>
-                        <div class="input-group">
-                            <label class="input-label">📅 Time to Achieve (Years)</label>
-                            <input type="number" class="input-field" id="goalYears" placeholder="5" oninput="updateGoalPlan()">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Growth Simulator -->
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-icon icon-income">📊</div>
-                        <div class="card-title">Watch Your Money Grow!</div>
-                    </div>
-                    <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 15px;">
-                        Move the slider to see how your investment grows over time
-                    </p>
-
-                    <div class="slider-container">
-                        <label class="slider-label">
-                            <span>💰 Monthly Investment</span>
-                            <span class="slider-value" id="sliderValue">₹5,000</span>
-                        </label>
-                        <input type="range" class="investment-slider" id="investmentSlider" 
-                               min="1000" max="50000" step="500" value="5000" 
-                               oninput="updateGrowthSimulator(this.value)">
-                        <div class="slider-markers">
-                            <span>₹1k</span>
-                            <span>₹10k</span>
-                            <span>₹25k</span>
-                            <span>₹50k</span>
-                        </div>
-                    </div>
-
-                    <div class="growth-timeline">
-                        <div class="timeline-selector">
-                            <button class="timeline-btn active" onclick="selectTimeline(1, this)">1 Year</button>
-                            <button class="timeline-btn" onclick="selectTimeline(3, this)">3 Years</button>
-                            <button class="timeline-btn" onclick="selectTimeline(5, this)">5 Years</button>
-                            <button class="timeline-btn" onclick="selectTimeline(10, this)">10 Years</button>
-                        </div>
-                    </div>
-
-                    <div class="growth-results">
-                        <div class="growth-card grow-invested">
-                            <div class="growth-card-icon">💵</div>
-                            <div class="growth-card-label">You Invest</div>
-                            <div class="growth-card-value" id="growthInvested">₹60,000</div>
-                        </div>
-                        <div class="growth-card grow-returns">
-                            <div class="growth-card-icon">📈</div>
-                            <div class="growth-card-label">You Earn</div>
-                            <div class="growth-card-value" id="growthReturns">₹4,200</div>
-                        </div>
-                        <div class="growth-card grow-total">
-                            <div class="growth-card-icon">🎉</div>
-                            <div class="growth-card-label">You Get</div>
-                            <div class="growth-card-value" id="growthTotal">₹64,200</div>
-                        </div>
-                    </div>
-
-                    <div class="growth-visual">
-                        <div class="growth-bar-container">
-                            <div class="growth-bar-label">
-                                <span>📊 Your Money Journey</span>
+                <!-- SIP SECTION -->
+                <div id="sipSection" class="investment-section active">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon icon-investment">💰</div>
+                            <div>
+                                <div class="card-title">SIP Calculator</div>
+                                <div class="card-subtitle">Systematic Investment Plan</div>
                             </div>
-                            <div class="growth-bars">
-                                <div class="growth-bar-item">
-                                    <div class="growth-bar invested-bar" id="investedBar" style="width: 60%;">
-                                        <span class="bar-label">Invested</span>
-                                    </div>
-                                </div>
-                                <div class="growth-bar-item">
-                                    <div class="growth-bar returns-bar" id="returnsBar" style="width: 40%;">
-                                        <span class="bar-label">Returns</span>
-                                    </div>
-                                </div>
+                        </div>
+                        <p class="helper-text">
+                            💡 SIP means investing a fixed amount every month. Your money grows over time with compound returns!
+                        </p>
+
+                        <div class="input-section">
+                            <div class="input-group">
+                                <label class="input-label">💵 Monthly Investment</label>
+                                <input type="number" class="input-field" placeholder="₹5,000" id="sipAmount" value="5000" oninput="calculateSIP()">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">📅 How Many Years?</label>
+                                <input type="number" class="input-field" placeholder="10" id="sipDuration" value="10" oninput="calculateSIP()">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">📊 Expected Growth Rate (% per year)</label>
+                                <input type="number" class="input-field" placeholder="12" id="sipReturn" value="12" oninput="calculateSIP()">
+                                <small class="field-hint">Usually 10-12% for equity funds</small>
                             </div>
                         </div>
                     </div>
 
-                    <div class="encouragement-box">
-                        <p id="encouragementText">💪 Great start! Keep investing regularly to reach your goals faster!</p>
+                    <div class="card" id="sipResults">
+                        <div class="card-header">
+                            <div class="card-icon icon-income">🎉</div>
+                            <div class="card-title">Your SIP Will Grow To</div>
+                        </div>
+
+                        <div class="result-cards">
+                            <div class="result-card result-invested">
+                                <div class="result-icon">💵</div>
+                                <div class="result-label">You Invest</div>
+                                <div class="result-value" id="sipInvested">₹6,00,000</div>
+                            </div>
+                            <div class="result-card result-returns">
+                                <div class="result-icon">📈</div>
+                                <div class="result-label">You Earn</div>
+                                <div class="result-value" id="sipReturns">₹5,16,127</div>
+                            </div>
+                            <div class="result-card result-total">
+                                <div class="result-icon">🎁</div>
+                                <div class="result-label">Final Amount</div>
+                                <div class="result-value" id="sipTotal">₹11,16,127</div>
+                            </div>
+                        </div>
+
+                        <div class="visual-breakdown">
+                            <div class="breakdown-label">📊 Money Breakdown</div>
+                            <div class="breakdown-bars">
+                                <div class="breakdown-item">
+                                    <div class="breakdown-bar invested-bar" id="sipInvestedBar" style="width: 54%;">
+                                        <span class="bar-text">Your Investment</span>
+                                    </div>
+                                </div>
+                                <div class="breakdown-item">
+                                    <div class="breakdown-bar returns-bar" id="sipReturnsBar" style="width: 46%;">
+                                        <span class="bar-text">Growth</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="encouragement-message" id="sipMessage">
+                            🌟 Amazing! Your ₹5,000/month will become ₹11 lakhs in 10 years!
+                        </div>
                     </div>
                 </div>
 
-                <!-- Investment Tips -->
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-icon">💡</div>
-                        <div class="card-title">Smart Investment Tips</div>
+                <!-- RD SECTION -->
+                <div id="rdSection" class="investment-section">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon icon-bills">🏦</div>
+                            <div>
+                                <div class="card-title">RD Calculator</div>
+                                <div class="card-subtitle">Recurring Deposit</div>
+                            </div>
+                        </div>
+                        <p class="helper-text">
+                            💡 RD is a safe way to save! Deposit monthly in your bank and earn fixed interest. Risk-free!
+                        </p>
+
+                        <div class="input-section">
+                            <div class="input-group">
+                                <label class="input-label">💵 Monthly Deposit</label>
+                                <input type="number" class="input-field" placeholder="₹3,000" id="rdAmount" value="3000" oninput="calculateRD()">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">📅 Time Period (Years)</label>
+                                <input type="number" class="input-field" placeholder="5" id="rdDuration" value="5" oninput="calculateRD()">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">📊 Interest Rate (% per year)</label>
+                                <input type="number" class="input-field" placeholder="6.5" id="rdRate" value="6.5" oninput="calculateRD()">
+                                <small class="field-hint">Usually 6-7% in banks</small>
+                            </div>
+                        </div>
                     </div>
-                    <div class="expense-list">
-                        <div class="expense-item">
-                            <span class="expense-name">🎯 Start small, but start today!</span>
+
+                    <div class="card" id="rdResults">
+                        <div class="card-header">
+                            <div class="card-icon icon-income">🎉</div>
+                            <div class="card-title">Your RD Maturity Amount</div>
                         </div>
-                        <div class="expense-item">
-                            <span class="expense-name">📅 Invest regularly every month</span>
+
+                        <div class="result-cards">
+                            <div class="result-card result-invested">
+                                <div class="result-icon">💵</div>
+                                <div class="result-label">Total Deposit</div>
+                                <div class="result-value" id="rdDeposit">₹1,80,000</div>
+                            </div>
+                            <div class="result-card result-returns">
+                                <div class="result-icon">💰</div>
+                                <div class="result-label">Interest Earned</div>
+                                <div class="result-value" id="rdInterest">₹18,500</div>
+                            </div>
+                            <div class="result-card result-total">
+                                <div class="result-icon">🎁</div>
+                                <div class="result-label">Maturity Amount</div>
+                                <div class="result-value" id="rdMaturity">₹1,98,500</div>
+                            </div>
                         </div>
-                        <div class="expense-item">
-                            <span class="expense-name">🧘‍♀️ Be patient - time is your friend</span>
+
+                        <div class="visual-breakdown">
+                            <div class="breakdown-label">📊 Money Breakdown</div>
+                            <div class="breakdown-bars">
+                                <div class="breakdown-item">
+                                    <div class="breakdown-bar invested-bar" id="rdDepositBar" style="width: 91%;">
+                                        <span class="bar-text">Your Deposits</span>
+                                    </div>
+                                </div>
+                                <div class="breakdown-item">
+                                    <div class="breakdown-bar returns-bar" id="rdInterestBar" style="width: 9%;">
+                                        <span class="bar-text">Interest</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="expense-item">
-                            <span class="expense-name">💪 Don't stop when market goes down</span>
+
+                        <div class="encouragement-message" id="rdMessage">
+                            🏦 Safe & Steady! Your ₹3,000/month will grow to ₹1,98,500 in 5 years!
                         </div>
                     </div>
                 </div>
+
+                <!-- SAVING GOALS SECTION -->
+                <div id="goalsSection" class="investment-section">
+                    <!-- Goal Categories -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon icon-investment">🎯</div>
+                            <div class="card-title">Choose Your Goal</div>
+                        </div>
+                        <p class="helper-text">
+                            💡 Pick what you're saving for, and we'll help you plan!
+                        </p>
+
+                        <!-- Short-Term Goals -->
+                        <div class="goal-category">
+                            <div class="category-header">
+                                <span class="category-icon">⚡</span>
+                                <span class="category-title">Short-Term Goals (1-3 years)</span>
+                            </div>
+                            <div class="goal-grid">
+                                <div class="goal-card" onclick="selectGoal('trip', '🌴', 'Family Trip', 150000, 2, 'short')">
+                                    <div class="goal-icon">🌴</div>
+                                    <div class="goal-name">Family Trip</div>
+                                </div>
+                                <div class="goal-card" onclick="selectGoal('gadget', '📱', 'Gadgets & Electronics', 80000, 1, 'short')">
+                                    <div class="goal-icon">📱</div>
+                                    <div class="goal-name">Gadgets</div>
+                                </div>
+                                <div class="goal-card" onclick="selectGoal('renovation', '🏡', 'Home Renovation', 200000, 2, 'short')">
+                                    <div class="goal-icon">🏡</div>
+                                    <div class="goal-name">Renovation</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Long-Term Goals -->
+                        <div class="goal-category">
+                            <div class="category-header">
+                                <span class="category-icon">🚀</span>
+                                <span class="category-title">Long-Term Goals (5+ years)</span>
+                            </div>
+                            <div class="goal-grid">
+                                <div class="goal-card" onclick="selectGoal('education', '👶', 'Child Education', 500000, 10, 'long')">
+                                    <div class="goal-icon">👶</div>
+                                    <div class="goal-name">Child Education</div>
+                                </div>
+                                <div class="goal-card" onclick="selectGoal('wedding', '💍', 'Wedding', 300000, 5, 'long')">
+                                    <div class="goal-icon">💍</div>
+                                    <div class="goal-name">Wedding</div>
+                                </div>
+                                <div class="goal-card" onclick="selectGoal('retirement', '🌅', 'Retirement Fund', 1000000, 15, 'long')">
+                                    <div class="goal-icon">🌅</div>
+                                    <div class="goal-name">Retirement</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Emergency Fund -->
+                        <div class="goal-category">
+                            <div class="category-header">
+                                <span class="category-icon">🛡️</span>
+                                <span class="category-title">Emergency Fund (Always Important!)</span>
+                            </div>
+                            <div class="goal-grid">
+                                <div class="goal-card" onclick="selectGoal('emergency', '🏠', 'Emergency Savings', 200000, 3, 'emergency')">
+                                    <div class="goal-icon">🏠</div>
+                                    <div class="goal-name">Emergency Fund</div>
+                                </div>
+                                <div class="goal-card" onclick="selectGoal('health', '🏥', 'Health Emergency', 150000, 2, 'emergency')">
+                                    <div class="goal-icon">🏥</div>
+                                    <div class="goal-name">Health Fund</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Selected Goal Plan -->
+                    <div class="card" id="goalPlanCard" style="display: none;">
+                        <div class="card-header">
+                            <div class="card-icon icon-investment">
+                                <span id="selectedGoalIcon">🎯</span>
+                            </div>
+                            <div class="card-title" id="selectedGoalTitle">Your Goal Plan</div>
+                        </div>
+
+                        <div class="goal-plan-box">
+                            <div class="plan-icon">✨</div>
+                            <p class="plan-suggestion" id="goalSuggestion"></p>
+                        </div>
+
+                        <div class="input-section" style="margin-top: 20px;">
+                            <div class="input-group">
+                                <label class="input-label">🎯 Target Amount</label>
+                                <input type="number" class="input-field" id="goalTargetAmount" placeholder="₹2,00,000" oninput="updateGoalPlan()">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">📅 Time to Achieve (Years)</label>
+                                <input type="number" class="input-field" id="goalTimeYears" placeholder="5" oninput="updateGoalPlan()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Growth Simulator -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon icon-income">📊</div>
+                            <div class="card-title">Growth Simulator</div>
+                        </div>
+                        <p class="helper-text">
+                            💡 Play with the sliders to see how your money grows!
+                        </p>
+
+                        <div class="simulator-controls">
+                            <div class="slider-group">
+                                <label class="slider-label">
+                                    <span>💰 Monthly Investment</span>
+                                    <span class="slider-value" id="simMonthlyValue">₹5,000</span>
+                                </label>
+                                <input type="range" class="investment-slider" id="simMonthlySlider" 
+                                       min="500" max="50000" step="500" value="5000" 
+                                       oninput="updateSimulator()">
+                                <div class="slider-markers">
+                                    <span>₹500</span>
+                                    <span>₹25k</span>
+                                    <span>₹50k</span>
+                                </div>
+                            </div>
+
+                            <div class="slider-group">
+                                <label class="slider-label">
+                                    <span>📅 Time Duration</span>
+                                    <span class="slider-value" id="simYearsValue">5 Years</span>
+                                </label>
+                                <input type="range" class="investment-slider" id="simYearsSlider" 
+                                       min="1" max="20" step="1" value="5" 
+                                       oninput="updateSimulator()">
+                                <div class="slider-markers">
+                                    <span>1 Year</span>
+                                    <span>10 Years</span>
+                                    <span>20 Years</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="simulator-results">
+                            <div class="sim-result-card sim-invested">
+                                <div class="sim-icon">💵</div>
+                                <div class="sim-label">Total Invested</div>
+                                <div class="sim-value" id="simInvested">₹3,00,000</div>
+                            </div>
+                            <div class="sim-result-card sim-growth">
+                                <div class="sim-icon">🌱</div>
+                                <div class="sim-label">Estimated Growth</div>
+                                <div class="sim-value" id="simGrowth">₹1,00,000</div>
+                            </div>
+                            <div class="sim-result-card sim-final">
+                                <div class="sim-icon">🎉</div>
+                                <div class="sim-label">Final Amount</div>
+                                <div class="sim-value" id="simFinal">₹4,00,000</div>
+                            </div>
+                        </div>
+
+                        <div class="growth-chart">
+                            <div class="chart-title">📈 Watch Your Money Grow</div>
+                            <div class="chart-bars">
+                                <div class="chart-bar-wrapper">
+                                    <div class="chart-bar chart-invested" id="simChartInvested" style="width: 75%;">
+                                        <span class="chart-label">Invested</span>
+                                    </div>
+                                </div>
+                                <div class="chart-bar-wrapper">
+                                    <div class="chart-bar chart-growth" id="simChartGrowth" style="width: 25%;">
+                                        <span class="chart-label">Growth</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="learning-tip">
+                            <span class="tip-icon">💡</span>
+                            <p id="simulatorTip">Starting early and investing regularly is the secret to building wealth!</p>
+                        </div>
+                    </div>
+
+                    <!-- Investment Tips -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">💡</div>
+                            <div class="card-title">Smart Saving Tips</div>
+                        </div>
+                        <div class="tips-list">
+                            <div class="tip-item">
+                                <span class="tip-emoji">🌱</span>
+                                <span class="tip-text">Start small, but start today! Even ₹500/month makes a difference</span>
+                            </div>
+                            <div class="tip-item">
+                                <span class="tip-emoji">📅</span>
+                                <span class="tip-text">Set up auto-debit so you never miss a month</span>
+                            </div>
+                            <div class="tip-item">
+                                <span class="tip-emoji">🎯</span>
+                                <span class="tip-text">Have clear goals - it keeps you motivated!</span>
+                            </div>
+                            <div class="tip-item">
+                                <span class="tip-emoji">🛡️</span>
+                                <span class="tip-text">Always keep 6 months of expenses as emergency fund</span>
+                            </div>
+                            <div class="tip-item">
+                                <span class="tip-emoji">💪</span>
+                                <span class="tip-text">Don't panic when markets fall - keep investing!</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -2360,134 +3184,608 @@
             }
         }
 
-        // Investment Calculator
-        let selectedGoalData = {
-            type: '',
-            icon: '',
-            name: '',
-            amount: 0,
-            years: 0
-        };
+        // Investment Tab Switching
+        function switchInvestmentTab(tab, btn) {
+            // Update tab buttons
+            document.querySelectorAll('.inv-tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
 
-        let currentTimeline = 1;
+            // Hide all sections
+            document.querySelectorAll('.investment-section').forEach(s => s.classList.remove('active'));
 
-        function selectGoal(type, icon, name, amount, years) {
-            selectedGoalData = {type, icon, name, amount, years};
-            
+            // Show selected section
+            const sectionMap = {
+                'sip': 'sipSection',
+                'rd': 'rdSection',
+                'goals': 'goalsSection'
+            };
+            document.getElementById(sectionMap[tab]).classList.add('active');
+        }
+
+        // SIP Calculator
+        function calculateSIP() {
+            const monthlyAmount = parseFloat(document.getElementById('sipAmount').value) || 0;
+            const years = parseFloat(document.getElementById('sipDuration').value) || 0;
+            const returnRate = parseFloat(document.getElementById('sipReturn').value) || 0;
+
+            if (monthlyAmount > 0 && years > 0 && returnRate > 0) {
+                const months = years * 12;
+                const monthlyRate = returnRate / 12 / 100;
+
+                // SIP Future Value Formula
+                const futureValue = monthlyAmount * (((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate) * (1 + monthlyRate));
+                const totalInvested = monthlyAmount * months;
+                const totalReturns = futureValue - totalInvested;
+
+                // Update display
+                document.getElementById('sipInvested').textContent = `₹${Math.round(totalInvested).toLocaleString('en-IN')}`;
+                document.getElementById('sipReturns').textContent = `₹${Math.round(totalReturns).toLocaleString('en-IN')}`;
+                document.getElementById('sipTotal').textContent = `₹${Math.round(futureValue).toLocaleString('en-IN')}`;
+
+                // Update bars
+                const investedPercent = (totalInvested / futureValue) * 100;
+                const returnsPercent = (totalReturns / futureValue) * 100;
+
+                document.getElementById('sipInvestedBar').style.width = investedPercent + '%';
+                document.getElementById('sipReturnsBar').style.width = returnsPercent + '%';
+
+                // Update message
+                const lakhs = Math.round(futureValue / 100000);
+                document.getElementById('sipMessage').textContent = 
+                    `🌟 Amazing! Your ₹${monthlyAmount.toLocaleString('en-IN')}/month will become ₹${lakhs} lakh${lakhs > 1 ? 's' : ''} in ${years} years!`;
+            }
+        }
+
+        // RD Calculator
+        function calculateRD() {
+            const monthlyDeposit = parseFloat(document.getElementById('rdAmount').value) || 0;
+            const years = parseFloat(document.getElementById('rdDuration').value) || 0;
+            const annualRate = parseFloat(document.getElementById('rdRate').value) || 0;
+
+            if (monthlyDeposit > 0 && years > 0 && annualRate > 0) {
+                const months = years * 12;
+                const monthlyRate = annualRate / 12 / 100;
+
+                // RD Maturity Formula
+                const maturityAmount = monthlyDeposit * (((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate) * (1 + monthlyRate));
+                const totalDeposit = monthlyDeposit * months;
+                const interest = maturityAmount - totalDeposit;
+
+                // Update display
+                document.getElementById('rdDeposit').textContent = `₹${Math.round(totalDeposit).toLocaleString('en-IN')}`;
+                document.getElementById('rdInterest').textContent = `₹${Math.round(interest).toLocaleString('en-IN')}`;
+                document.getElementById('rdMaturity').textContent = `₹${Math.round(maturityAmount).toLocaleString('en-IN')}`;
+
+                // Update bars
+                const depositPercent = (totalDeposit / maturityAmount) * 100;
+                const interestPercent = (interest / maturityAmount) * 100;
+
+                document.getElementById('rdDepositBar').style.width = depositPercent + '%';
+                document.getElementById('rdInterestBar').style.width = interestPercent + '%';
+
+                // Update message
+                document.getElementById('rdMessage').textContent = 
+                    `🏦 Safe & Steady! Your ₹${monthlyDeposit.toLocaleString('en-IN')}/month will grow to ₹${Math.round(maturityAmount).toLocaleString('en-IN')} in ${years} years!`;
+            }
+        }
+
+        // Goal Selection
+        let selectedGoalData = null;
+
+        function selectGoal(type, icon, name, amount, years, category) {
+            selectedGoalData = {type, icon, name, amount, years, category};
+
             // Update UI
             document.getElementById('selectedGoalIcon').textContent = icon;
-            document.getElementById('selectedGoalName').textContent = name;
-            document.getElementById('goalAmount').value = amount;
-            document.getElementById('goalYears').value = years;
-            
-            // Show goal details
-            document.getElementById('goalDetails').style.display = 'block';
-            
+            document.getElementById('selectedGoalTitle').textContent = name;
+            document.getElementById('goalTargetAmount').value = amount;
+            document.getElementById('goalTimeYears').value = years;
+
+            // Show goal plan card
+            document.getElementById('goalPlanCard').style.display = 'block';
+
             // Highlight selected goal
             document.querySelectorAll('.goal-card').forEach(card => {
                 card.classList.remove('selected');
             });
             event.target.closest('.goal-card').classList.add('selected');
-            
+
             // Update plan
             updateGoalPlan();
-            
+
             // Smooth scroll
             setTimeout(() => {
-                document.getElementById('goalDetails').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                document.getElementById('goalPlanCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
             }, 100);
         }
 
         function updateGoalPlan() {
-            const amount = parseFloat(document.getElementById('goalAmount').value) || 0;
-            const years = parseFloat(document.getElementById('goalYears').value) || 0;
-            
+            const amount = parseFloat(document.getElementById('goalTargetAmount').value) || 0;
+            const years = parseFloat(document.getElementById('goalTimeYears').value) || 0;
+
             if (amount > 0 && years > 0) {
                 const months = years * 12;
                 const returnRate = 12; // 12% annual return
                 const monthlyRate = returnRate / 12 / 100;
-                
+
                 // Calculate monthly SIP needed
                 const monthlySIP = amount / (((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate) * (1 + monthlyRate));
-                
-                const planText = document.querySelector('.plan-text');
-                planText.innerHTML = `To reach <strong>₹${amount.toLocaleString('en-IN')}</strong> in <strong>${years} year${years > 1 ? 's' : ''}</strong>,<br>invest <strong>₹${Math.round(monthlySIP).toLocaleString('en-IN')}</strong> per month in SIP.<br><br>💪 You can do this!`;
+
+                document.getElementById('goalSuggestion').innerHTML = 
+                    `To reach <strong>₹${amount.toLocaleString('en-IN')}</strong> in <strong>${years} year${years > 1 ? 's' : ''}</strong>, invest <strong>₹${Math.round(monthlySIP).toLocaleString('en-IN')}</strong> per month in SIP.<br><br>💪 You can do this!`;
             }
         }
 
-        function selectTimeline(years, btn) {
-            currentTimeline = years;
-            
-            // Update active button
-            document.querySelectorAll('.timeline-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            
-            // Recalculate with current slider value
-            const monthlyAmount = parseFloat(document.getElementById('investmentSlider').value);
-            updateGrowthSimulator(monthlyAmount);
-        }
+        // Growth Simulator
+        function updateSimulator() {
+            const monthly = parseFloat(document.getElementById('simMonthlySlider').value);
+            const years = parseFloat(document.getElementById('simYearsSlider').value);
 
-        function updateGrowthSimulator(monthlyAmount) {
-            // Update slider display
-            document.getElementById('sliderValue').textContent = `₹${parseInt(monthlyAmount).toLocaleString('en-IN')}`;
-            
-            const years = currentTimeline;
+            // Update display values
+            document.getElementById('simMonthlyValue').textContent = `₹${Math.round(monthly).toLocaleString('en-IN')}`;
+            document.getElementById('simYearsValue').textContent = `${years} Year${years > 1 ? 's' : ''}`;
+
+            // Calculate
             const months = years * 12;
-            const returnRate = 12; // 12% annual return
+            const returnRate = 12;
             const monthlyRate = returnRate / 12 / 100;
-            
-            // Calculate returns
-            const futureValue = monthlyAmount * (((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate) * (1 + monthlyRate));
-            const totalInvested = monthlyAmount * months;
-            const totalReturns = futureValue - totalInvested;
-            
-            // Update display
-            document.getElementById('growthInvested').textContent = `₹${Math.round(totalInvested).toLocaleString('en-IN')}`;
-            document.getElementById('growthReturns').textContent = `₹${Math.round(totalReturns).toLocaleString('en-IN')}`;
-            document.getElementById('growthTotal').textContent = `₹${Math.round(futureValue).toLocaleString('en-IN')}`;
-            
-            // Update bars
-            const totalAmount = totalInvested + totalReturns;
-            const investedPercent = (totalInvested / totalAmount) * 100;
-            const returnsPercent = (totalReturns / totalAmount) * 100;
-            
-            document.getElementById('investedBar').style.width = investedPercent + '%';
-            document.getElementById('returnsBar').style.width = returnsPercent + '%';
-            
-            // Update encouragement
-            updateEncouragement(monthlyAmount, years, totalReturns);
-        }
 
-        function updateEncouragement(monthly, years, returns) {
-            const messages = [
-                `💪 Fantastic! In ${years} year${years > 1 ? 's' : ''}, you'll earn ₹${Math.round(returns).toLocaleString('en-IN')} extra!`,
-                `🎉 Amazing! Your ₹${Math.round(monthly).toLocaleString('en-IN')}/month will grow to ₹${Math.round(returns + monthly * years * 12).toLocaleString('en-IN')}!`,
-                `🌟 Great choice! Keep going and watch your wealth multiply!`,
-                `✨ Wonderful! Small steps today = Big rewards tomorrow!`,
-                `🚀 Brilliant! You're building a strong financial future!`
+            const futureValue = monthly * (((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate) * (1 + monthlyRate));
+            const totalInvested = monthly * months;
+            const growth = futureValue - totalInvested;
+
+            // Update results
+            document.getElementById('simInvested').textContent = `₹${Math.round(totalInvested).toLocaleString('en-IN')}`;
+            document.getElementById('simGrowth').textContent = `₹${Math.round(growth).toLocaleString('en-IN')}`;
+            document.getElementById('simFinal').textContent = `₹${Math.round(futureValue).toLocaleString('en-IN')}`;
+
+            // Update chart
+            const investedPercent = (totalInvested / futureValue) * 100;
+            const growthPercent = (growth / futureValue) * 100;
+
+            document.getElementById('simChartInvested').style.width = investedPercent + '%';
+            document.getElementById('simChartGrowth').style.width = growthPercent + '%';
+
+            // Update tip
+            const tips = [
+                `💪 In ${years} years, your ₹${Math.round(monthly).toLocaleString('en-IN')}/month will grow to ₹${Math.round(futureValue).toLocaleString('en-IN')}!`,
+                `🌟 That's ₹${Math.round(growth).toLocaleString('en-IN')} extra from compound growth alone!`,
+                `✨ The power of regular investing - stay consistent!`,
+                `🎯 Small steps today = Big rewards tomorrow!`
             ];
+            document.getElementById('simulatorTip').textContent = tips[Math.floor(Math.random() * tips.length)];
+        }
+        // Smart Insights Engine
+        function generateSmartInsights() {
+            const insights = [];
+            const now = new Date();
             
-            let message = messages[Math.floor(Math.random() * messages.length)];
+            // Get current month/year
+            const currentMonth = now.getMonth();
+            const currentYear = now.getFullYear();
             
-            if (monthly >= 10000) {
-                message = `🏆 Superb!! In ${years} year${years > 1 ? 's' : ''}, you'll have ₹${Math.round(returns + monthly * years * 12).toLocaleString('en-IN')}!`;
-            } else if (monthly <= 2000) {
-                message = `💪 Every rupee counts! Starting small is better than not starting at all. Keep it up!`;
+            // Get historical data from localStorage with timestamps
+            const expenseHistory = JSON.parse(localStorage.getItem('smartBudgetExpenseHistory') || '[]');
+            const businessHistory = JSON.parse(localStorage.getItem('smartBudgetBusinessHistory') || '[]');
+            
+            // Calculate current month expenses
+            const currentMonthExpenses = calculateMonthExpenses(currentMonth, currentYear, expenseHistory);
+            const currentMonthIncome = calculateMonthIncome(currentMonth, currentYear, businessHistory);
+            
+            // Calculate previous month expenses
+            let prevMonth = currentMonth - 1;
+            let prevYear = currentYear;
+            if (prevMonth < 0) {
+                prevMonth = 11;
+                prevYear -= 1;
+            }
+            const previousMonthExpenses = calculateMonthExpenses(prevMonth, prevYear, expenseHistory);
+            
+            // Insight 1: Month-over-month spending comparison
+            if (previousMonthExpenses > 0 && currentMonthExpenses > 0) {
+                const percentChange = ((currentMonthExpenses - previousMonthExpenses) / previousMonthExpenses) * 100;
+                if (Math.abs(percentChange) >= 5) {
+                    if (percentChange > 0) {
+                        insights.push({
+                            type: 'warning',
+                            emoji: '📈',
+                            text: `Your spending increased by <span class="insight-value">${percentChange.toFixed(1)}%</span> this month compared to last month`
+                        });
+                    } else {
+                        insights.push({
+                            type: 'positive',
+                            emoji: '📉',
+                            text: `Great job! Your spending decreased by <span class="insight-value">${Math.abs(percentChange).toFixed(1)}%</span> this month`
+                        });
+                    }
+                }
             }
             
-            document.getElementById('encouragementText').textContent = message;
+            // Insight 2: Quarterly savings calculation (last 3 months)
+            const quarterlyData = calculateQuarterlySavings(currentMonth, currentYear, businessHistory, expenseHistory);
+            if (quarterlyData.income > 0) {
+                const savings = quarterlyData.income - quarterlyData.expenses;
+                if (savings > 0) {
+                    insights.push({
+                        type: 'positive',
+                        emoji: '💰',
+                        text: `You saved <span class="insight-value">₹${savings.toLocaleString('en-IN')}</span> this quarter!`
+                    });
+                } else if (savings < 0) {
+                    insights.push({
+                        type: 'negative',
+                        emoji: '⚠️',
+                        text: `You spent <span class="insight-value">₹${Math.abs(savings).toLocaleString('en-IN')}</span> more than you earned this quarter`
+                    });
+                }
+            }
+            
+            // Insight 3: Category-based high spending detection
+            const categoryAnalysis = analyzeExpenseCategories(expenseHistory, currentMonth, currentYear);
+            if (categoryAnalysis.highSpendingCategory) {
+                insights.push({
+                    type: 'neutral',
+                    emoji: '🔍',
+                    text: `<span class="insight-value">${categoryAnalysis.highSpendingCategory.name}</span> is your highest expense category this month (₹${categoryAnalysis.highSpendingCategory.amount.toLocaleString('en-IN')})`
+                });
+            }
+            
+            // Insight 4: Budget limit warning
+            const monthlyBudget = userData.monthlyBudget || 50000;
+            if (currentMonthExpenses > 0) {
+                const budgetUsage = (currentMonthExpenses / monthlyBudget) * 100;
+                if (budgetUsage >= 90) {
+                    insights.push({
+                        type: 'negative',
+                        emoji: '🚨',
+                        text: `Warning: You've used <span class="insight-value">${budgetUsage.toFixed(1)}%</span> of your monthly budget limit!`
+                    });
+                } else if (budgetUsage >= 75) {
+                    insights.push({
+                        type: 'warning',
+                        emoji: '⚡',
+                        text: `You're nearing your monthly expense limit (<span class="insight-value">${budgetUsage.toFixed(1)}%</span> used)`
+                    });
+                }
+            }
+            
+            // Insight 5: Electricity/Utilities high cost detection
+            const electricityData = detectHighUtilityCosts(expenseHistory, currentMonth, currentYear);
+            if (electricityData.isHigh) {
+                insights.push({
+                    type: 'warning',
+                    emoji: '💡',
+                    text: `Electricity costs are higher than usual this month (₹${electricityData.amount.toLocaleString('en-IN')})`
+                });
+            }
+            
+            // Insight 6: Income trend
+            if (currentMonthIncome > 0) {
+                insights.push({
+                    type: 'positive',
+                    emoji: '💵',
+                    text: `You earned <span class="insight-value">₹${currentMonthIncome.toLocaleString('en-IN')}</span> this month`
+                });
+            }
+            
+            // Return insights or null for default message
+            return insights.length > 0 ? insights : null;
         }
 
-        // Initialize growth simulator on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            updateGrowthSimulator(5000);
-        });
+        function calculateMonthExpenses(month, year, history) {
+            let total = 0;
+            
+            // Add current expenses (always counted for current month)
+            const now = new Date();
+            if (month === now.getMonth() && year === now.getFullYear()) {
+                total += expenses.reduce((sum, exp) => sum + exp.amount, 0);
+                total += bills.reduce((sum, bill) => sum + bill.amount, 0);
+            }
+            
+            // Add historical expenses
+            history.forEach(record => {
+                if (record.monthKey === `${year}-${month}`) {
+                    if (record.expenses) {
+                        total += record.expenses.reduce((sum, exp) => sum + exp.amount, 0);
+                    }
+                    if (record.bills) {
+                        total += record.bills.reduce((sum, bill) => sum + bill.amount, 0);
+                    }
+                }
+            });
+            
+            return total;
+        }
+
+        function calculateMonthIncome(month, year, history) {
+            let total = 0;
+            
+            history.forEach(record => {
+                if (record.type === 'income') {
+                    const recordDate = new Date(record.timestamp);
+                    if (recordDate.getMonth() === month && recordDate.getFullYear() === year) {
+                        total += record.amount;
+                    }
+                }
+            });
+            
+            return total;
+        }
+
+        function calculateQuarterlySavings(currentMonth, currentYear, businessHistory, expenseHistory) {
+            let totalIncome = 0;
+            let totalExpenses = 0;
+            
+            // Calculate for last 3 months
+            for (let i = 0; i < 3; i++) {
+                let month = currentMonth - i;
+                let year = currentYear;
+                
+                while (month < 0) {
+                    month += 12;
+                    year -= 1;
+                }
+                
+                totalIncome += calculateMonthIncome(month, year, businessHistory);
+                totalExpenses += calculateMonthExpenses(month, year, expenseHistory);
+            }
+            
+            return { income: totalIncome, expenses: totalExpenses };
+        }
+
+        function analyzeExpenseCategories(history, currentMonth, currentYear) {
+            const categories = {};
+            
+            // Categorize current expenses
+            expenses.forEach(exp => {
+                const category = extractCategory(exp.name);
+                categories[category] = (categories[category] || 0) + exp.amount;
+            });
+            
+            bills.forEach(bill => {
+                const category = extractCategory(bill.name);
+                categories[category] = (categories[category] || 0) + bill.amount;
+            });
+            
+            // Find highest spending category
+            let highestCategory = null;
+            let highestAmount = 0;
+            
+            for (const [category, amount] of Object.entries(categories)) {
+                if (amount > highestAmount) {
+                    highestAmount = amount;
+                    highestCategory = category;
+                }
+            }
+            
+            if (highestCategory && highestAmount > 0) {
+                return {
+                    highSpendingCategory: {
+                        name: highestCategory,
+                        amount: highestAmount
+                    }
+                };
+            }
+            
+            return {};
+        }
+
+        function extractCategory(name) {
+            // Extract category from emoji-prefixed names
+            if (name.includes('🛒') || name.includes('Groceries')) return 'Groceries';
+            if (name.includes('🚗') || name.includes('Transportation')) return 'Transportation';
+            if (name.includes('⚡') || name.includes('Utilities') || name.includes('💡') || name.includes('Electricity')) return 'Utilities';
+            if (name.includes('🏫') || name.includes('School') || name.includes('Education')) return 'Education';
+            if (name.includes('📱') || name.includes('Internet') || name.includes('Phone')) return 'Internet & Phone';
+            if (name.includes('🏠') || name.includes('Rent') || name.includes('Home')) return 'Housing';
+            return 'Other';
+        }
+
+        function detectHighUtilityCosts(history, currentMonth, currentYear) {
+            let currentUtilities = 0;
+            let previousUtilities = 0;
+            
+            // Calculate current month utilities
+            expenses.forEach(exp => {
+                const category = extractCategory(exp.name);
+                if (category === 'Utilities') {
+                    currentUtilities += exp.amount;
+                }
+            });
+            
+            bills.forEach(bill => {
+                const category = extractCategory(bill.name);
+                if (category === 'Utilities') {
+                    currentUtilities += bill.amount;
+                }
+            });
+            
+            // Calculate previous month utilities
+            let prevMonth = currentMonth - 1;
+            let prevYear = currentYear;
+            if (prevMonth < 0) {
+                prevMonth = 11;
+                prevYear -= 1;
+            }
+            
+            history.forEach(record => {
+                if (record.monthKey === `${prevYear}-${prevMonth}`) {
+                    if (record.expenses) {
+                        record.expenses.forEach(exp => {
+                            const category = extractCategory(exp.name);
+                            if (category === 'Utilities') {
+                                previousUtilities += exp.amount;
+                            }
+                        });
+                    }
+                    if (record.bills) {
+                        record.bills.forEach(bill => {
+                            const category = extractCategory(bill.name);
+                            if (category === 'Utilities') {
+                                previousUtilities += bill.amount;
+                            }
+                        });
+                    }
+                }
+            });
+            
+            // Check if current is 20% higher than previous
+            if (previousUtilities > 0 && currentUtilities > previousUtilities * 1.2) {
+                return { isHigh: true, amount: currentUtilities };
+            }
+            
+            return { isHigh: false, amount: currentUtilities };
+        }
+
+        function renderSmartInsights() {
+            const insightsList = document.getElementById('insightsList');
+            if (!insightsList) return;
+            
+            const insights = generateSmartInsights();
+            
+            if (!insights || insights.length === 0) {
+                insightsList.innerHTML = `
+                    <div class="no-insights">
+                        <div class="no-insights-icon">📊</div>
+                        <div class="no-insights-text">Start tracking to see insights!</div>
+                        <div class="no-insights-hint">Add expenses and income to get personalized financial insights</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            insightsList.innerHTML = insights.map(insight => `
+                <div class="insight-item ${insight.type}">
+                    <span class="insight-emoji">${insight.emoji}</span>
+                    <span class="insight-text">${insight.text}</span>
+                </div>
+            `).join('');
+        }
+
+        // Override saveToLocalStorage to include historical tracking
+        const _originalSaveToLocalStorage = saveToLocalStorage;
+        saveToLocalStorage = function() {
+            // Call original save
+            localStorage.setItem('smartBudgetUser', JSON.stringify(userData));
+            localStorage.setItem('smartBudgetExpenses', JSON.stringify(expenses));
+            localStorage.setItem('smartBudgetBills', JSON.stringify(bills));
+            
+            // Save expense history with timestamps
+            const expenseHistory = JSON.parse(localStorage.getItem('smartBudgetExpenseHistory') || '[]');
+            const now = new Date();
+            
+            // Add current month's data snapshot
+            const currentMonthKey = `${now.getFullYear()}-${now.getMonth()}`;
+            const existingIndex = expenseHistory.findIndex(record => record.monthKey === currentMonthKey);
+            
+            if (existingIndex >= 0) {
+                // Update existing record
+                expenseHistory[existingIndex] = {
+                    monthKey: currentMonthKey,
+                    timestamp: now.toISOString(),
+                    expenses: [...expenses],
+                    bills: [...bills]
+                };
+            } else {
+                // Add new record
+                expenseHistory.push({
+                    monthKey: currentMonthKey,
+                    timestamp: now.toISOString(),
+                    expenses: [...expenses],
+                    bills: [...bills]
+                });
+            }
+            
+            // Keep only last 12 months
+            if (expenseHistory.length > 12) {
+                expenseHistory.splice(0, expenseHistory.length - 12);
+            }
+            
+            localStorage.setItem('smartBudgetExpenseHistory', JSON.stringify(expenseHistory));
+            
+            // Refresh insights
+            renderSmartInsights();
+        };
+
+        // Override addIncome to track business income
+        const _originalAddIncome = addIncome;
+        addIncome = function() {
+            const amount = parseFloat(document.getElementById('incomeAmount').value) || 0;
+            const desc = document.getElementById('incomeDesc').value;
+            
+            if (amount > 0) {
+                dailyIncome += amount;
+                
+                // Save to business history
+                const businessHistory = JSON.parse(localStorage.getItem('smartBudgetBusinessHistory') || '[]');
+                businessHistory.push({
+                    type: 'income',
+                    amount: amount,
+                    description: desc,
+                    timestamp: new Date().toISOString()
+                });
+                localStorage.setItem('smartBudgetBusinessHistory', JSON.stringify(businessHistory));
+                
+                updateBusinessSummary();
+                document.getElementById('incomeAmount').value = '';
+                document.getElementById('incomeDesc').value = '';
+                
+                // Visual feedback
+                const btn = event.target;
+                btn.textContent = '✓ Added!';
+                setTimeout(() => {
+                    btn.textContent = '➕ Add Income';
+                }, 1500);
+                
+                // Refresh insights
+                renderSmartInsights();
+            }
+        };
+
+        // Override addExpense to track business expenses
+        const _originalAddExpense = addExpense;
+        addExpense = function() {
+            const amount = parseFloat(document.getElementById('expenseAmount').value) || 0;
+            const desc = document.getElementById('expenseDesc').value;
+            
+            if (amount > 0) {
+                dailyExpense += amount;
+                
+                // Save to business history
+                const businessHistory = JSON.parse(localStorage.getItem('smartBudgetBusinessHistory') || '[]');
+                businessHistory.push({
+                    type: 'expense',
+                    amount: amount,
+                    description: desc,
+                    timestamp: new Date().toISOString()
+                });
+                localStorage.setItem('smartBudgetBusinessHistory', JSON.stringify(businessHistory));
+                
+                updateBusinessSummary();
+                document.getElementById('expenseAmount').value = '';
+                document.getElementById('expenseDesc').value = '';
+                
+                // Visual feedback
+                const btn = event.target;
+                btn.textContent = '✓ Added!';
+                setTimeout(() => {
+                    btn.textContent = '➕ Add Expense';
+                }, 1500);
+                
+                // Refresh insights
+                renderSmartInsights();
+            }
+        };
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             loadProfile();
             loadFromLocalStorage();
+            calculateSIP();
+            calculateRD();
+            updateSimulator();
             updateGrowthSimulator(5000);
+            renderSmartInsights(); // Generate insights on load
             
             // Trigger initial animations
             setTimeout(() => {
@@ -2496,6 +3794,68 @@
                 });
             }, 100);
         });
+
+        // Also update insights when expenses are modified
+        const _originalRenderExpenses = renderExpenses;
+        renderExpenses = function() {
+            const list = document.getElementById('expensesList');
+            list.innerHTML = expenses.map(exp => `
+                <div class="expense-item" data-id="${exp.id}">
+                    <div class="expense-content">
+                        <span class="expense-name">${exp.name}</span>
+                        <span class="expense-amount amount-negative">- ₹${exp.amount.toLocaleString('en-IN')}</span>
+                    </div>
+                    <div class="expense-actions">
+                        <button class="action-btn edit-btn" onclick="editExpense(this)">✏️</button>
+                        <button class="action-btn delete-btn" onclick="deleteExpense(this)">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+            updateTotals();
+            renderSmartInsights(); // Refresh insights when expenses change
+        };
+
+        const _originalRenderBills = renderBills;
+        renderBills = function() {
+            const list = document.getElementById('billsList');
+            list.innerHTML = bills.map(bill => `
+                <div class="expense-item" data-id="${bill.id}">
+                    <div class="expense-content">
+                        <span class="expense-name">
+                            ${bill.name}
+                            <span class="expense-badge">${bill.due}</span>
+                        </span>
+                        <span class="expense-amount amount-negative">- ₹${bill.amount.toLocaleString('en-IN')}</span>
+                    </div>
+                    <div class="expense-actions">
+                        <button class="action-btn edit-btn" onclick="editBill(this)">✏️</button>
+                        <button class="action-btn delete-btn" onclick="deleteBill(this)">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+            renderSmartInsights(); // Refresh insights when bills change
+        };
     </script>
+    <script>
+const translations = {
+  en: {
+    title: "Smart Budget",
+    dayBtn: "Day"
+  },
+  ml: {
+    title: "സ്മാർട്ട് ബജറ്റ്",
+    dayBtn: "ദിവസം"
+  }
+};
+
+document.getElementById("langSelect").addEventListener("change", function() {
+  const lang = this.value;
+
+  for (let key in translations[lang]) {
+    document.getElementById(key).innerText = translations[lang][key];
+  }
+});
+</script>
+
 </body>
 </html>

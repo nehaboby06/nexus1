@@ -48,16 +48,17 @@ Most budgeting apps just show numbers. This app goes beyond by providing **actio
 outlook of website
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/299270b7-ab9b-4f34-a85d-42c8ba50a914" width="250"/>
-  <img src="https://github.com/user-attachments/assets/9231a052-e0d3-4e5e-9ba5-8035af937c98" width="250"/>
-  <img src="https://github.com/user-attachments/assets/66b28d5a-ba2b-4ce9-ae2c-1ad2ad152503" width="250"/>
+  <img src="https://github.com/user-attachments/assets/299270b7-ab9b-4f34-a85d-42c8ba50a914" width="280" height="400"/>
+  <img src="https://github.com/user-attachments/assets/9231a052-e0d3-4e5e-9ba5-8035af937c98" width="280" height="400"/>
+  <img src="https://github.com/user-attachments/assets/66b28d5a-ba2b-4ce9-ae2c-1ad2ad152503" width="280" height="400"/>
 </p>
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/9793936e-8372-44f0-b742-f27c06cfb32b" width="250"/>
-  <img src="https://github.com/user-attachments/assets/2a21e6ec-28bb-4f8c-92ec-c913738b7d9f" width="250"/>
-  <img src="https://github.com/user-attachments/assets/42aadc6c-a555-45fe-9d1a-ccb0440e9c39" width="250"/>
+  <img src="https://github.com/user-attachments/assets/9793936e-8372-44f0-b742-f27c06cfb32b" width="280" height="400"/>
+  <img src="https://github.com/user-attachments/assets/2a21e6ec-28bb-4f8c-92ec-c913738b7d9f" width="280" height="400"/>
+  <img src="https://github.com/user-attachments/assets/42aadc6c-a555-45fe-9d1a-ccb0440e9c39" width="280" height="400"/>
 </p>
+
 
 
 ## 🎯 Unique Selling Points

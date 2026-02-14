@@ -48,16 +48,13 @@ Most budgeting apps just show numbers. This app goes beyond by providing **actio
 outlook of website
 
 
-<img width="565" height="479" alt="1" src="https://github.com/user-attachments/assets/45bffdc7-1dae-4db9-8556-e1d8ea62f70c" />
-<img width="565" height="479" alt="2" src="https://github.com/user-attachments/assets/dc6759a7-5b87-46bb-a5d2-4edd602e8b2d" />
+<div class="image-container">
+  <img src="https://github.com/user-attachments/assets/e1104746-03a8-45df-9d4b-aa468137011c" alt="3">
+  <img src="https://github.com/user-attachments/assets/a2f1fbb8-aeaf-4c64-a898-9fc063cdd05c" alt="4">
+  <img src="https://github.com/user-attachments/assets/9f82591e-247f-4e34-9b7c-c62799c03d21" alt="5">
+  <img src="https://github.com/user-attachments/assets/58208333-58c1-4f68-b2f2-e24bc6910607" alt="6">
+</div>
 
-<img width="388" height="440" alt="3" src="https://github.com/user-attachments/assets/e1104746-03a8-45df-9d4b-aa468137011c" />
-<img width="419" height="497" alt="4" src="https://github.com/user-attachments/assets/a2f1fbb8-aeaf-4c64-a898-9fc063cdd05c" />
-
-
-<img width="300" height="497" alt="5" src="https://github.com/user-attachments/assets/9f82591e-247f-4e34-9b7c-c62799c03d21" />
-
-<img width="300" height="497" alt="6" src="https://github.com/user-attachments/assets/58208333-58c1-4f68-b2f2-e24bc6910607" />
 
 ## 🎯 Unique Selling Points
 - *Combined household + business finance management* — rarely found in other apps.  

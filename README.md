@@ -73,7 +73,7 @@ Most budgeting apps just show numbers. This app goes beyond by providing **actio
 
 ## 📌 How to Run
 1. Clone the repository.  
-   2.git clone <your-repo-link>
+   2.git clone https://github.com/nehaboby06/nexus1.git
    3.Start adding household and business income/expenses to see insights.  
 
 

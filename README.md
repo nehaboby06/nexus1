@@ -72,7 +72,7 @@ outlook of website
 
 ## ⚙️ Tech Stack
 - *Frontend*:HTML, CSS, JavaScript
-- Database: Local storage (no backend required
+
 
 
 

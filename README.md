@@ -45,6 +45,7 @@ Most budgeting apps just show numbers. This app goes beyond by providing **actio
 - Provide actionable recommendations for savings and investment.
 
 ##Project Documentation
+
 outlook of website
 
 <p align="center">
